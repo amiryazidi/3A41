@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+<h3> LA LISTES DES ETUDIANTS</h3>
+
+<table border="1">
+<tr>
+    <td>ID </td>
+    <td> NAME</td>
+    <td> EMAIL</td>
+    <td> AGE</td>
+    <td> Classroom</td>
+    <td> ACTION</td>
+</tr>
+{% for t in response%}
+<tr>
+    <td>  {{t.id}}  </td>
+    <td>  {{t.name}}</td>
+    <td>  {{t.email}}</td>
+    <td>  {{t.age}}</td>
+    <td>{%if t.Classroom!=null%}
+        {{t.Classroom.name}}
+    {%endif%}</td>
+    <td><a href={{path('remove',{'id':t.id})}}>remove</a>
+        <a href={{path('update',{'id':t.id})}}>update</a>
+
+</tr>
+{% endfor %}
+</table>
+
+
+<a href="{{path("addF")}}"> add author </a>

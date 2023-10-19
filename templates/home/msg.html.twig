@@ -1,0 +1,15 @@
+<h1> Bonjour {{n | upper}}</h1>
+
+{% set x =6 %}
+{{x}}
+
+{% for i in a %}
+        {{ i.username }}
+        <img src="{{i.picture}}">
+    {% if(i.nb_books>0) %}
+    <input type="submit" value="register">
+    {% endif %}
+    <a href="{{path('d',{'id':i.username})}}">details </a>
+{% endfor %}
+
+
