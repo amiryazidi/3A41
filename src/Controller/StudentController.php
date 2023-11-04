@@ -6,6 +6,7 @@ use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\ClassroomRepository;
 use App\Repository\StudentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,5 +102,32 @@ class StudentController extends AbstractController
     $em->remove($student);
     $em->flush();
     return new Response('removed');
+    }
+    #[Route('/dql', name: 'dql')]
+    public function dqlStudent(EntityManagerInterface $em,Request$request,StudentRepository $repo):Response{
+
+        $result=$repo->findAll();
+        if($request->isMethod('post')){
+            $value=$request->get('test');
+            $result=$repo->fetchStudentByName($value);
+            dd($result);
+        }
+
+        return $this->render('student/searchStudent.html.twig',[
+            'students' =>$result
+        ]);
+    }
+    #[Route('/dql2', name: 'dql2')]
+    public function dql2(EntityManagerInterface $em):Response{
+        $req=$em->createQuery('select s.name t,c.name from App\Entity\Student s join s.classroom  c');
+        $result=$req->getResult();
+        dd($result);
+    }
+
+    #[Route('/qb', name: 'qb')]
+    public function qb(StudentRepository $repo):Response
+    {
+        $result=$repo->listEtduant();
+        dd($result);
     }
 }
